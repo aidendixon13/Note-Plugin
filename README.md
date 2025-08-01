@@ -1,94 +1,163 @@
-# Obsidian Sample Plugin
+# Open in Claude Code (Windows)
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+A Windows-optimized Obsidian plugin that allows you to quickly open Claude Code in the current note's folder with a single click or keyboard shortcut.
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## Features
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+- 🚀 **One-click access**: Open Claude Code directly from Obsidian's ribbon or command palette
+- 📁 **Smart folder detection**: Automatically uses the current note's folder as the working directory
+- ⌨️ **Keyboard shortcuts**: Configure your preferred keyboard shortcut
+- 🖥️ **Windows terminal support**: Choose from Command Prompt, PowerShell, Windows Terminal, VS Code, or Cursor
+- 🔍 **Installation check**: Automatically detects if Claude Code is installed
+- ⚙️ **Advanced Claude CLI options**: Full support for Claude's command-line interface features
+- 💻 **Windows desktop only**: Built specifically for Windows environments
 
-## First time developing plugins?
+## How it works
 
-Quick starting guide for new plugin devs:
+When you trigger the plugin (via ribbon icon, command palette, or keyboard shortcut), it:
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+1. Detects the folder of your currently active note
+2. Opens your preferred terminal application or code editor
+3. Navigates to that folder
+4. Launches Claude Code with your configured options
 
-## Releasing new releases
+For example:
+- If you're viewing `References/Brown butter nectarine tart.md`, Claude Code opens in the `References/` folder
+- If you're viewing a note in the vault root, Claude Code opens in the vault root directory
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+## Installation
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+### Prerequisites
 
-## Adding your plugin to the community plugin list
+1. **Windows 10/11** - This plugin is designed specifically for Windows
+2. **Claude Code** must be installed on your system
+3. **Terminal/Editor** - At least one supported terminal or code editor
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+### From Obsidian Community Plugins
 
-## How to use
+(Coming soon)
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+### Manual Installation
 
-## Manually installing the plugin
+1. Download the latest release from the releases page
+2. Extract the files to your vault's `.obsidian/plugins/open-in-claude-code-windows/` folder
+3. Reload Obsidian
+4. Enable the plugin in Settings → Community plugins
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+## Configuration
 
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+### Settings
 
-## Funding URL
+Access the settings via Settings → Plugin Options → Open in Claude Code (Windows)
 
-You can include funding URLs where people who use your plugin can financially support it.
+#### Basic Settings
+- **Claude Code path**: Auto-detects or specify custom path to Claude executable
+- **Custom vault path**: Override auto-detected vault path (useful if Obsidian detects wrong location)
+- **Terminal application**: Choose from:
+  - Command Prompt (built-in)
+  - PowerShell (built-in)
+  - Windows Terminal
+  - VS Code
+  - Cursor
+  - Custom Command
+- **Keyboard shortcut**: Set your preferred shortcut (default: Ctrl+Shift+C)
+- **Always open vault root**: Toggle between current note's folder vs vault root
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
+#### Claude CLI Options
+- **Model selection**: Choose between Claude models (Opus 4, Sonnet 4, etc.)
+- **Permission modes**: 
+  - Default (ask for each operation)
+  - Accept Edits (auto-approve file edits)
+  - Bypass Permissions (skip all checks)
+  - Plan Mode (planning only)
+  - Custom (select specific tools)
+- **Continue last session**: Resume previous conversations
+- **Additional directories**: Include extra project directories
+- **Verbose mode**: Enable detailed output
 
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+### Terminal-Specific Configuration
+
+#### Command Prompt / PowerShell
+- Built-in Windows terminals, no additional setup required
+- Commands open in new windows with proper working directory
+
+#### Windows Terminal
+- Install from Microsoft Store or GitHub
+- Plugin will auto-detect installation
+- Opens in new tab with current directory
+
+#### VS Code / Cursor
+- Plugin opens the folder in the editor
+- Automatically opens integrated terminal after a configurable delay
+- Uses PowerShell automation to send commands
+
+#### Custom Command
+Use template variables:
+- `{{cwd}}` - Current working directory
+- `{{claude}}` - Full Claude command with options
+
+Example: `cmd /c "start cmd /k \"cd /d {{cwd}} && {{claude}}\""`
+
+## Troubleshooting
+
+### Claude Code not found
+1. Install Claude Code: https://docs.anthropic.com/en/docs/claude-code/quickstart
+2. Verify it's accessible: Run `claude` in Command Prompt
+3. Use custom path in settings if installed in non-standard location
+
+### Wrong vault path or folder
+- **Enable custom vault path**: If plugin opens in wrong directory, use the "Custom vault path" setting
+- **Example**: Set to `C:\Note Vault\Aiden's Vault` for your specific vault location
+- **Test button**: Use the "Test" button to verify your path is accessible
+
+### Terminal doesn't open
+- **Windows Terminal**: Install from Microsoft Store
+- **VS Code/Cursor**: Increase terminal delay in settings if commands aren't sent
+- **PowerShell**: Ensure execution policy allows scripts: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
+
+### Permission issues
+- Run Obsidian as administrator if needed
+- Check Windows Defender/antivirus settings
+- Enable debug mode to see detection results
+
+### VS Code/Cursor automation fails
+- Increase the terminal delay (default 1500ms, try 2500-3000ms)
+- Ensure the editor has focus when the command runs
+- Check Windows focus assist settings
+
+## Development
+
+To build the plugin:
+
+```bash
+# Install dependencies
+npm install
+
+# Development build with auto-reload
+npm run dev
+
+# Production build
+npm run build
 ```
 
-If you have multiple URLs, you can also do:
+## Platform Support
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
-```
+This plugin is **Windows desktop-only**:
+- ✅ Windows 10/11 (fully supported)
+- ❌ macOS (use the original macOS version)
+- ❌ Linux (not supported)
+- ❌ Mobile devices (not supported)
 
-## API Documentation
+## Differences from macOS Version
 
-See https://github.com/obsidianmd/obsidian-api
+This Windows version includes:
+- PowerShell automation instead of AppleScript
+- Windows-specific terminal applications
+- Windows file path handling
+- `where` command for executable detection
+- Windows-specific installation paths
+- SendKeys automation for VS Code/Cursor
+
+## License
+
+MIT
