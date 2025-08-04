@@ -79,8 +79,9 @@ const TERMINAL_APPS: Record<string, {
 		name: 'PowerShell',
 		executableName: 'powershell.exe',
 		openCommand: (cwd: string, claudePath: string) => {
-			const escapedPath = escapeWindowsPath(cwd);
-			return `powershell -Command "Start-Process powershell -ArgumentList '-NoExit', '-Command', 'Set-Location \\"${escapedPath}\\"; ${claudePath}'"`;
+			const escapedPath = escapePowerShellPath(cwd);
+			// Use -WorkingDirectory parameter of Start-Process to avoid complex quote nesting
+			return `powershell -Command "Start-Process powershell -ArgumentList '-NoExit', '-Command', '${claudePath}' -WorkingDirectory '${escapedPath}'"`;
 		}
 	},
 	windowsterminal: {
@@ -118,6 +119,12 @@ const CACHE_DURATION = 60000; // 1 minute cache
 // Utility function to escape Windows paths
 function escapeWindowsPath(str: string): string {
 	return str.replace(/"/g, '""');
+}
+
+// Utility function to escape paths for PowerShell commands
+function escapePowerShellPath(str: string): string {
+	// Escape single quotes by doubling them, and handle other special chars
+	return str.replace(/'/g, "''").replace(/"/g, '""');
 }
 
 // Utility function to escape PowerShell strings
